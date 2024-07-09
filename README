@@ -1,0 +1,39 @@
+Finance Terms Application
+This application manages finance terms using an in-memory SQLite database. It allows you to create finance terms, update their status, and retrieve them with optional filters and sorting.
+
+Why SQLite3?
+SQLite3 was chosen for its simplicity and lightweight nature, making it suitable for applications that require a local, file-based or in-memory database without the need for a separate server process. It's widely supported and works seamlessly with Node.js applications.
+
+Installation
+To install the necessary dependencies, run:
+
+npm install
+node ./server
+
+Running Tests
+npm test
+
+
+Finance Terms Table
+The FinanceTerms table in the SQLite database has the following schema:
+
+id INTEGER PRIMARY KEY AUTOINCREMENT: Unique identifier for each finance term.
+insurancePolicies TEXT: JSON string representing insurance policies associated with the finance term.
+downpayment REAL: Amount paid upfront.
+dueDate TEXT: Due date for payments.
+amountFinanced REAL: Total amount financed.
+status TEXT: Current status of the finance term (e.g., pending, agreed).
+
+How It Works
+Creating Finance Terms
+To create a new finance term, send a POST request to /finance-terms with JSON data containing insurancePolicies and dueDate. The server calculates downpayment and amountFinanced based on the provided policies and responds with the created finance term.
+
+Updating Finance Term Status
+To update the status of a finance term to "agreed", send a PATCH request to /finance-terms/:id/agree, where :id is the ID of the finance term. The server updates the status in the database and returns the updated finance term.
+
+Listing Finance Terms
+To list finance terms with optional filters and sorting, send a GET request to /finance-terms. You can filter by downpayment and status, and sort by fields in ascending or descending order by providing the sort query parameter (field:order).
+
+Error Handling
+Errors, such as missing insurance policies or database issues, are handled gracefully with appropriate status codes and error messages returned in JSON format.
+
